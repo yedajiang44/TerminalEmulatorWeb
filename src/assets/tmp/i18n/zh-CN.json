@@ -1,6 +1,9 @@
 {
   "app.name":"终端模拟器",
   "app.desc":"以部标协议为基础实现的终端模拟器",
+  "menu.infrastructure":"基础设施",
+  "menu.terminal":"终端管理",
+  "menu.terminal.list":"终端列表",
   "menu.system":"系统",
   "menu.config":"配置管理",
   "menu.config.general":"常规配置",

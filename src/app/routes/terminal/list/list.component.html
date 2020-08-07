@@ -1,0 +1,11 @@
+<page-header [action]="phActionTpl">
+  <ng-template #phActionTpl>
+    <button (click)="showAddForm()" nz-button nzType="primary">新建</button>
+    <button (click)="showRandomForm()" nz-button nzType="primary">随机</button>
+    <button [hidden]="ids.length === 0" (click)="batchDelete()" nz-button nzType="danger">删除</button>
+  </ng-template>
+</page-header>
+<nz-card>
+  <sf mode="search" [schema]="searchSchema" (formSubmit)="st.reset($event)" (formReset)="st.reset($event)"></sf>
+  <st #st [data]="url" [columns]="columns" [req]="{ reName: { pi: 'index', ps: 'size' } }" (change)="change($event)"></st>
+</nz-card>

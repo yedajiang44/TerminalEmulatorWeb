@@ -1,0 +1,13 @@
+<div class="modal-header">
+  <div class="modal-title">查看 {{ record.licensePlate }} 信息</div>
+</div>
+<nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
+<div sv-container *ngIf="i">
+  <sv label="主键">{{ i.id }}</sv>
+  <sv label="车牌">{{ i.licensePlate }}</sv>
+  <sv label="sim卡号">{{ i.sim }}</sv>
+  <sv label="创建时间">{{ i.createDateTime }}</sv>
+</div>
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close()">关闭</button>
+</div>

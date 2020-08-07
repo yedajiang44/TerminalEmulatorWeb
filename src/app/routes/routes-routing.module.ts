@@ -25,6 +25,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then((m) => m.ExceptionModule) },
       { path: 'system', loadChildren: () => import('./system/system.module').then((m) => m.SystemModule) },
+      { path: 'terminal', loadChildren: () => import('./terminal/terminal.module').then((m) => m.TerminalModule) },
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
     ],
