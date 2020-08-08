@@ -2,6 +2,7 @@
   <ng-template #phActionTpl>
     <button (click)="showAddForm()" nz-button nzType="primary">新建</button>
     <button (click)="showRandomForm()" nz-button nzType="primary">随机</button>
+    <button (click)="deleteAll()" nz-button nzType="danger">清空</button>
     <button [hidden]="ids.length === 0" (click)="batchDelete()" nz-button nzType="danger">删除</button>
   </ng-template>
 </page-header>

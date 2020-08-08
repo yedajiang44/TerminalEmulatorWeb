@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { LoadingService } from '@delon/abc/loading';
 import { STChange, STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
@@ -48,7 +49,7 @@ export class TerminalListComponent implements OnInit {
       ],
     },
   ];
-  constructor(private http: _HttpClient, private modal: ModalHelper, private message: NzMessageService) {}
+  constructor(private http: _HttpClient, private modal: ModalHelper, private message: NzMessageService, private loading: LoadingService) {}
 
   ngOnInit() {}
   change(e: STChange) {
@@ -74,11 +75,25 @@ export class TerminalListComponent implements OnInit {
       }
     });
   }
+
   batchDelete() {
     this.http.delete(`api/terminal`, { ids: this.ids }).subscribe((res) => {
       if (res) {
         this.message.success('删除成功');
         this.ids = [];
+        this.st.reload();
+      } else {
+        this.message.error('删除失败');
+      }
+    });
+  }
+
+  deleteAll() {
+    this.loading.open({ type: 'icon', text: '请稍后' });
+    this.http.delete(`api/terminal/deleteAll`).subscribe((res) => {
+      this.loading.close();
+      if (res) {
+        this.message.success('删除成功');
         this.st.reload();
       } else {
         this.message.error('删除失败');
