@@ -56,6 +56,23 @@
       ]
     },
     {
+      "text":"终端模拟器",
+      "i18n":"menu.emulator",
+      "group":true,
+      "hideInBreadcrumb":true,
+      "children":[{
+        "text": "任务管理",
+        "i18n": "menu.task",
+        "icon": "anticon-info",
+        "children":[{
+          "text": "任务列表",
+          "link": "/task/list",
+          "i18n": "menu.task.list",
+          "shortcut": false
+        }]
+      }]
+    },
+    {
       "text": "基础数据",
       "i18n": "menu.infrastructure",
       "group": true,
@@ -65,10 +82,25 @@
         "i18n": "menu.terminal",
         "icon": "anticon-info",
         "children":[{
-          "text": "常规配置",
+          "text": "终端列表",
           "link": "/terminal/list",
           "i18n": "menu.terminal.list",
-          "shortcut": true
+          "shortcut": false
+        }]
+      },{
+        "text": "线路管理",
+        "i18n": "menu.line",
+        "icon": "anticon-info",
+        "children":[{
+          "text": "线路列表",
+          "link": "/line/list",
+          "i18n": "menu.line.list",
+          "shortcut": false
+        },{
+          "text": "线路规划",
+          "link": "/line/add",
+          "i18n": "menu.line.add",
+          "shortcut": false
         }]
       }]
     },

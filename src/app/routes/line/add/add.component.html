@@ -1,0 +1,26 @@
+<page-header [action]="phActionTpl">
+  <ng-template #phActionTpl> </ng-template>
+</page-header>
+<nz-card>
+  <div nz-row>
+    <input id="start" nz-col nzSpan="5" nz-input type="text" placeholder="请输入起点地址关键字..." />
+    <input id="end" nz-col nzSpan="5" nz-input type="text" placeholder="请输入终点地址关键字..." />
+    <button (click)="reset()" nz-button nzType="primary">重置</button>
+    <button (click)="search()" nz-button nzType="primary">搜索</button>
+    <button (click)="showAddForm()" [hidden]="formData.locations.length === 0" nz-button nzType="primary" [nzLoading]="http.loading">
+      添加
+    </button>
+  </div>
+  <div id="result" class="amap-sug-result"></div>
+  <br />
+  <ngx-amap
+    style="height: 600px; min-height: 600px;"
+    [viewMode]="'3D'"
+    [mapStyle]="'amap://styles/286e625d6ffb6c9e73e3e8a0a4b8d7ca'"
+    [pitchEnable]="false"
+    [pitch]="80"
+    (naReady)="onMapReady($event)"
+  >
+    <amap-tool-bar></amap-tool-bar>
+  </ngx-amap>
+</nz-card>

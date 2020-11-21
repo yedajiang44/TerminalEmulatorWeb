@@ -14,7 +14,7 @@ export class TerminalListViewComponent implements OnInit {
   constructor(private modal: NzModalRef, public msgSrv: NzMessageService, public http: _HttpClient) {}
 
   ngOnInit(): void {
-    this.http.get(`api/terminal/${this.record.id}`).subscribe((res) => (this.i = res.data));
+    this.http.get(`api/terminal/${this.record.id}`).subscribe((res) => (this.i = res));
   }
 
   close() {

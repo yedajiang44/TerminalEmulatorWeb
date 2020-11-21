@@ -67,9 +67,10 @@ export class DefaultInterceptor implements HttpInterceptor {
     if ((ev.status >= 200 && ev.status < 300) || ev.status === 401) {
       return;
     }
+    console.log(ev);
 
     const errortext = CODEMESSAGE[ev.status] || ev.statusText;
-    this.notification.error(`请求错误 ${ev.status}: ${ev.url}`, errortext);
+    this.notification.error(`请求错误 ${ev.status}`, `${errortext}`);
   }
 
   private tryRefreshToken(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
@@ -156,7 +157,7 @@ export class DefaultInterceptor implements HttpInterceptor {
             this.injector.get(NzMessageService).error(body.message);
             // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
             // this.http.get('/').subscribe() 并不会触发
-            return throwError({});
+            // return throwError({});
           } else {
             if (body.data) {
               // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码

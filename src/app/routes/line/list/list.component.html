@@ -1,0 +1,9 @@
+<page-header [action]="phActionTpl">
+  <ng-template #phActionTpl>
+    <button [hidden]="ids.length === 0" (click)="batchDelete()" nz-button nzType="danger">删除</button>
+  </ng-template>
+</page-header>
+<nz-card>
+  <sf mode="search" [schema]="searchSchema" (formSubmit)="st.reset($event)" (formReset)="st.reset($event)"></sf>
+  <st #st [data]="url" [columns]="columns" [req]="{ reName: { pi: 'index', ps: 'size' } }" multiSort="true" (change)="change($event)"></st>
+</nz-card>
