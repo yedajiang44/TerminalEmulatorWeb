@@ -20,15 +20,15 @@
         nz-popover
         nzPopoverPlacement="right"
         nzPopoverTrigger="focus"
-        [(nzVisible)]="visible"
-        nzOverlayClassName="register-password-cdk"
-        [nzOverlayStyle]="{ 'width.px': 240 }"
+        [(nzPopoverVisible)]="visible"
+        nzPopoverOverlayClassName="register-password-cdk"
+        [nzPopoverOverlayStyle]="{ 'width.px': 240 }"
         [nzPopoverContent]="pwdCdkTpl"
       >
         <input nz-input type="password" formControlName="password" placeholder="Password" />
       </nz-input-group>
       <ng-template #pwdCdkTpl>
-        <div style="padding: 4px 0;">
+        <div style="padding: 4px 0">
           <ng-container [ngSwitch]="status">
             <div *ngSwitchCase="'ok'" class="success">{{ 'validation.password.strength.strong' | translate }}</div>
             <div *ngSwitchCase="'pass'" class="warning">{{ 'validation.password.strength.medium' | translate }}</div>
@@ -62,7 +62,7 @@
     <nz-form-control [nzErrorTip]="mobileErrorTip">
       <nz-input-group nzSize="large" [nzAddOnBefore]="addOnBeforeTemplate">
         <ng-template #addOnBeforeTemplate>
-          <nz-select formControlName="mobilePrefix" style="width: 100px;">
+          <nz-select formControlName="mobilePrefix" style="width: 100px">
             <nz-option [nzLabel]="'+86'" [nzValue]="'+86'"></nz-option>
             <nz-option [nzLabel]="'+87'" [nzValue]="'+87'"></nz-option>
           </nz-select>

@@ -25,7 +25,22 @@
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.less"],
-            "scripts": ["node_modules/ajv/dist/ajv.bundle.js"]
+            "scripts": ["node_modules/ajv/dist/ajv.bundle.js"],
+            "allowedCommonJsDependencies": [
+              "@angularclass/hmr",
+              "@ant-design/colors",
+              "@antv/adjust",
+              "@antv/attr",
+              "@antv/component",
+              "@antv/g-base",
+              "@antv/g-canvas",
+              "@antv/g-math",
+              "@antv/g-svg",
+              "@antv/path-util",
+              "@antv/util",
+              "file-saver",
+              "hammerjs"
+            ]
           },
           "configurations": {
             "production": {
@@ -38,7 +53,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -144,19 +158,19 @@
     },
     "@schematics/angular:module": {
       "routing": true,
-      "spec": false
+      "skipTests": true
     },
     "@schematics/angular:component": {
-      "spec": false,
       "flat": false,
       "inlineStyle": true,
-      "inlineTemplate": false
+      "inlineTemplate": false,
+      "skipTests": true
     },
     "@schematics/angular:directive": {
-      "spec": false
+      "skipTests": true
     },
     "@schematics/angular:service": {
-      "spec": false
+      "skipTests": true
     }
   }
 }
