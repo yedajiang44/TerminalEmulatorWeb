@@ -3,4 +3,7 @@
     <button (click)="add()" nz-button nzType="primary">新建</button>
   </ng-template>
 </page-header>
-<nz-card> </nz-card>
+<nz-card>
+  <sf mode="search" [schema]="searchSchema" (formSubmit)="st.reset($event)" (formReset)="st.reset($event)"></sf>
+  <st #st [data]="url" [columns]="columns" [req]="{ reName: { pi: 'index', ps: 'size' } }" multiSort="true" (change)="change($event)"></st>
+</nz-card>
