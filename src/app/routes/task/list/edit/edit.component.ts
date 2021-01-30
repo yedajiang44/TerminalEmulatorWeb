@@ -3,7 +3,7 @@ import { SFSchema, SFSchemaEnum, SFSchemaEnumType, SFSelectWidgetSchema, SFUISch
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-terminal-list-edit',
@@ -59,16 +59,22 @@ export class TaskListEditComponent implements OnInit {
 
   save(value: any) {
     if (this.record.id) {
-      this.http.put(`api/task`, { id: this.record.id, ...value }).subscribe((res) => {
-        this.msgSrv.success('保存成功');
-        this.modal.close(true);
-      });
+      this.http
+        .put(`api/task`, { id: this.record.id, ...value })
+        .pipe(filter((x) => x !== null))
+        .subscribe((res) => {
+          this.msgSrv.success('保存成功');
+          this.modal.close(true);
+        });
     } else {
       delete value.id;
-      this.http.post(`api/task`, value).subscribe((res) => {
-        this.msgSrv.success('保存成功');
-        this.modal.close(true);
-      });
+      this.http
+        .post(`api/task`, value)
+        .pipe(filter((x) => x !== null))
+        .subscribe((res) => {
+          this.msgSrv.success('保存成功');
+          this.modal.close(true);
+        });
     }
   }
 

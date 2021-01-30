@@ -3,6 +3,7 @@ import { SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-system-config-edit',
@@ -47,10 +48,13 @@ export class SystemConfigEditComponent implements OnInit {
   }
 
   save(value: any) {
-    this.http.post(`/user/${this.record.id}`, value).subscribe((res) => {
-      this.msgSrv.success('保存成功');
-      this.modal.close(true);
-    });
+    this.http
+      .post(`/user/${this.record.id}`, value)
+      .pipe(filter((x) => x !== null))
+      .subscribe((res) => {
+        this.msgSrv.success('保存成功');
+        this.modal.close(true);
+      });
   }
 
   close() {

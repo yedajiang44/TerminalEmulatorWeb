@@ -3,6 +3,7 @@ import { SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-terminal-list-edit',
@@ -35,16 +36,22 @@ export class TerminalListEditComponent implements OnInit {
 
   save(value: any) {
     if (this.record.id) {
-      this.http.put(`api/terminal`, { id: this.record.id, ...value }).subscribe((res) => {
-        this.msgSrv.success('保存成功');
-        this.modal.close(true);
-      });
+      this.http
+        .put(`api/terminal`, { id: this.record.id, ...value })
+        .pipe(filter((x) => x !== null))
+        .subscribe((res) => {
+          this.msgSrv.success('保存成功');
+          this.modal.close(true);
+        });
     } else {
       delete value.id;
-      this.http.post(`api/terminal`, value).subscribe((res) => {
-        this.msgSrv.success('保存成功');
-        this.modal.close(true);
-      });
+      this.http
+        .post(`api/terminal`, value)
+        .pipe(filter((x) => x !== null))
+        .subscribe((res) => {
+          this.msgSrv.success('保存成功');
+          this.modal.close(true);
+        });
     }
   }
 
