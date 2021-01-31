@@ -13,8 +13,6 @@ export class LineConfigComponent implements OnInit {
   schema: SFSchema = {
     properties: {
       name: { type: 'string', title: '别名', description: '线路别名' },
-      speed: { type: 'number', title: '速度', default: 80, description: '车辆行驶速度（km/h）' },
-      interval: { type: 'number', title: '间隔', default: 30, description: '定位上报间隔（秒）' },
       note: { type: 'string', title: '备注' },
     },
     required: ['name', 'speed', 'interval'],

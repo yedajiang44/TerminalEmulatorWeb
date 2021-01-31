@@ -32,6 +32,8 @@ export class TaskListComponent implements OnInit {
     { title: '编号', index: 'id', type: 'checkbox' },
     { title: '别名', index: 'name' },
     { title: '线路', index: 'lineName' },
+    { title: '定位间隔', index: 'interval', format: (x) => `${x.interval} 秒`, sort: true },
+    { title: '行驶速度', index: 'speed', format: (x) => `${x.speed} km/h`, sort: true },
     { title: '创建时间', type: 'date', index: 'createDateTime', sort: true },
     {
       title: '操作',

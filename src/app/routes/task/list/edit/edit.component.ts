@@ -26,21 +26,44 @@ export class TaskListEditComponent implements OnInit {
         title: '线路',
         ui: {
           widget: 'select',
+          placeholder: '请输入线路名称',
           serverSearch: true,
           searchDebounceTime: 300,
           searchLoadingText: '搜索中...',
 
-          onSearch: (q) => {
-            return this.http
+          onSearch: (q) =>
+            this.http
               .get(`api/line/Search?index=1&size=20&name=${q}`)
               .pipe(map((res) => (res.list as any[]).map((i) => ({ label: i.name, value: i.id } as SFSchemaEnum))))
-              .toPromise();
-          },
+              .toPromise(),
         } as SFSelectWidgetSchema,
       },
+      terminal: {
+        type: 'string',
+        title: '终端',
+        ui: {
+          widget: 'select',
+          placeholder: '请输入车牌',
+          serverSearch: true,
+          searchDebounceTime: 300,
+          searchLoadingText: '搜索中...',
+
+          onSearch: (q) =>
+            this.http
+              .get(`api/Terminal/Search?index=1&size=20&licensePlate=${q}`)
+              .pipe(
+                map((res) =>
+                  (res.list as any[]).map((i) => ({ label: `车牌号:${i.licensePlate}，SIM卡号：${i.sim}`, value: i.id } as SFSchemaEnum)),
+                ),
+              )
+              .toPromise(),
+        } as SFSelectWidgetSchema,
+      },
+      speed: { type: 'number', title: '行驶速度', default: 80 },
+      interval: { type: 'number', title: '定位间隔', default: 30, ui: { optionalHelp: '实时定位上报间隔，单位秒' } },
       status: { type: 'integer', enum: this.status, title: '状态', ui: { widget: 'select' } },
     },
-    required: ['name', 'lineId', 'status'],
+    required: ['name', 'lineId', 'terminal', 'speed', 'interval', 'status'],
   };
   ui: SFUISchema = {
     '*': {

@@ -32,8 +32,6 @@ export class LineListComponent implements OnInit {
     { title: '别名', index: 'name' },
     { title: '距离', index: 'distance', format: (x) => `${x.distance / 1000} km` },
     { title: '基准点', index: 'locationCount', format: (x) => `${x.locationCount} 个` },
-    { title: '定位间隔', index: 'interval', format: (x) => `${x.interval} 秒`, sort: true },
-    { title: '行驶速度', index: 'speed', format: (x) => `${x.speed} km/h`, sort: true },
     { title: '备注', index: 'note' },
     { title: '创建时间', type: 'date', index: 'createDateTime', sort: true },
     {
