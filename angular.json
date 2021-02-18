@@ -27,7 +27,6 @@
             "styles": ["src/styles.less"],
             "scripts": ["node_modules/ajv/dist/ajv.bundle.js"],
             "allowedCommonJsDependencies": [
-              "@angularclass/hmr",
               "@ant-design/colors",
               "@antv/adjust",
               "@antv/attr",
@@ -69,14 +68,6 @@
                   "maximumError": "10kb"
                 }
               ]
-            },
-            "hmr": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.hmr.ts"
-                }
-              ]
             }
           }
         },
@@ -89,10 +80,6 @@
           "configurations": {
             "production": {
               "browserTarget": "emulator:build:production"
-            },
-            "hmr": {
-              "browserTarget": "emulator:build:hmr",
-              "hmr": true
             }
           }
         },
