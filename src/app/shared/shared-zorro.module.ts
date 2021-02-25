@@ -26,6 +26,9 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 
 export const SHARED_ZORRO_MODULES = [
   NzFormModule,
@@ -56,4 +59,7 @@ export const SHARED_ZORRO_MODULES = [
   NzRadioModule,
   NzCheckboxModule,
   NzAutocompleteModule,
+  NzSpaceModule,
+  NzTypographyModule,
+  NzAnchorModule,
 ];

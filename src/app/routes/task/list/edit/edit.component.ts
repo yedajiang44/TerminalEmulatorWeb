@@ -38,7 +38,7 @@ export class TaskListEditComponent implements OnInit {
               .toPromise(),
         } as SFSelectWidgetSchema,
       },
-      terminal: {
+      simNumber: {
         type: 'string',
         title: '终端',
         ui: {
@@ -53,17 +53,19 @@ export class TaskListEditComponent implements OnInit {
               .get(`api/Terminal/Search?index=1&size=20&licensePlate=${q}`)
               .pipe(
                 map((res) =>
-                  (res.list as any[]).map((i) => ({ label: `车牌号:${i.licensePlate}，SIM卡号：${i.sim}`, value: i.id } as SFSchemaEnum)),
+                  (res.list as any[]).map((i) => ({ label: `车牌号:${i.licensePlate}，SIM卡号：${i.sim}`, value: i.sim } as SFSchemaEnum)),
                 ),
               )
               .toPromise(),
         } as SFSelectWidgetSchema,
       },
+      ip: { type: 'string', title: '服务器' },
+      port: { type: 'number', title: '端口' },
       speed: { type: 'number', title: '行驶速度', default: 80 },
       interval: { type: 'number', title: '定位间隔', default: 30, ui: { optionalHelp: '实时定位上报间隔，单位秒' } },
       status: { type: 'integer', enum: this.status, title: '状态', ui: { widget: 'select' } },
     },
-    required: ['name', 'lineId', 'terminal', 'speed', 'interval', 'status'],
+    required: ['name', 'lineId', 'simNumber', 'ip', 'port', 'speed', 'interval', 'status'],
   };
   ui: SFUISchema = {
     '*': {

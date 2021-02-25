@@ -1,11 +1,10 @@
-import { Inject, Injectable } from '@angular/core';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzTabChangeEvent } from 'ng-zorro-antd/tabs';
 import { AMapLoaderService } from 'ngx-amap';
-import { LoggerService } from 'ngx-amap/shared/logger/logger.service';
 import { LineConfigComponent } from '../config/config.component';
-import { LocationType } from '../model';
+import { AddType, LocationType } from '../model';
 
 @Component({
   selector: 'app-line-add',
@@ -22,6 +21,16 @@ export class LineListAddComponent {
 
   map: AMap.Map;
 
+  pos: AMap.Marker[] = [];
+
+  order: number = 0;
+
+  addtype: AddType = AddType.auto;
+
+  start: AMap.LocationValue;
+
+  end: AMap.LocationValue;
+
   formData: { distance: number; locations: LocationType[] } = { distance: 0, locations: [] };
 
   constructor(
@@ -32,41 +41,82 @@ export class LineListAddComponent {
   ) {}
 
   search() {
-    this.driving.search(
-      [
-        { keyword: document.querySelector<HTMLInputElement>('#start').value },
-        { keyword: document.querySelector<HTMLInputElement>('#end').value },
-      ],
-      (status: AMap.Driving.SearchStatus, result: AMap.Driving.SearchResultExt) => {
-        this.formData.locations = [];
-        switch (status) {
-          case 'complete':
-            this.formData.locations = result.routes
-              .map((x) => {
-                this.formData.distance = x.distance;
-                return x;
-              })
-              .map((x) => x.steps)
-              .map((x) => x.map((item) => item.path).reduce((pre, cur) => pre.concat(cur)))
-              .reduce((pre, cur) => pre.concat(cur))
-              .map<LocationType>((x) => ({
-                Logintude: x.getLng(),
-                Latitude: x.getLat(),
-              }));
-            break;
-          case 'error':
-            break;
-          case 'no_data':
-            break;
-        }
-        this.changeDetectorRef.markForCheck();
-        this.changeDetectorRef.detectChanges();
-      },
-    );
+    switch (this.addtype) {
+      case AddType.auto:
+        this.driving.search(
+          [
+            { keyword: document.querySelector<HTMLInputElement>('#start').value },
+            { keyword: document.querySelector<HTMLInputElement>('#end').value },
+          ],
+          (status: AMap.Driving.SearchStatus, result: AMap.Driving.SearchResultExt) => {
+            this.formData.locations = [];
+            let index = 0;
+            switch (status) {
+              case 'complete':
+                this.formData.locations = result.routes
+                  .map((x) => {
+                    this.formData.distance = x.distance;
+                    return x;
+                  })
+                  .map((x) => x.steps)
+                  .map((x) => x.map((item) => item.path).reduce((pre, cur) => pre.concat(cur)))
+                  .reduce((pre, cur) => pre.concat(cur))
+                  .map<LocationType>((x) => ({
+                    Order: index++,
+                    Logintude: x.getLng(),
+                    Latitude: x.getLat(),
+                  }));
+                break;
+              case 'error':
+                break;
+              case 'no_data':
+                break;
+            }
+            this.changeDetectorRef.markForCheck();
+            this.changeDetectorRef.detectChanges();
+          },
+        );
+        break;
+      case AddType.semiautomatic:
+        this.driving.search(this.start, this.end, (status: AMap.Driving.SearchStatus, result: AMap.Driving.SearchResultBase) => {
+          this.formData.locations = [];
+          let index = 0;
+          switch (status) {
+            case 'complete':
+              this.formData.locations = result.routes
+                .map((x) => {
+                  this.formData.distance = x.distance;
+                  return x;
+                })
+                .map((x) => x.steps)
+                .map((x) => x.map((item) => item.path).reduce((pre, cur) => pre.concat(cur)))
+                .reduce((pre, cur) => pre.concat(cur))
+                .map<LocationType>((x) => ({
+                  Order: index++,
+                  Logintude: x.getLng(),
+                  Latitude: x.getLat(),
+                }));
+              break;
+            case 'error':
+              break;
+            case 'no_data':
+              break;
+          }
+          this.changeDetectorRef.markForCheck();
+          this.changeDetectorRef.detectChanges();
+        });
+        break;
+    }
   }
 
   showAddForm() {
     this.modal.createStatic(LineConfigComponent).subscribe((value) => {
+      if (this.addtype == AddType.manual)
+        this.formData.locations = this.pos.map<LocationType>((x) => ({
+          Order: Number(x.getLabel().content),
+          Latitude: x.getPosition().getLat(),
+          Logintude: x.getPosition().getLng(),
+        }));
       this.http
         .post(`api/Line`, {
           ...value,
@@ -79,18 +129,64 @@ export class LineListAddComponent {
     });
   }
   reset() {
-    document.querySelector<HTMLInputElement>('#start').value = '';
-    document.querySelector<HTMLInputElement>('#end').value = '';
-    this.formData.locations = [];
-    this.driving.clear();
-    this.changeDetectorRef.markForCheck();
-    this.changeDetectorRef.detectChanges();
+    switch (this.addtype) {
+      case AddType.auto:
+        document.querySelector<HTMLInputElement>('#start').value = '';
+        document.querySelector<HTMLInputElement>('#end').value = '';
+        this.formData.locations = [];
+        this.driving.clear();
+        break;
+      case AddType.semiautomatic:
+        this.start = null;
+        this.end = null;
+        this.driving.clear();
+        break;
+      case AddType.manual:
+        this.order = 0;
+        this.pos = [];
+        break;
+    }
   }
   onMapReady(map: AMap.Map) {
+    map.getContainer().style.height = `${window.outerHeight * 0.618}px`;
     map.plugin('AMap.Driving', () => {
       this.driving = new AMap.Driving({
         map,
       });
     });
+    this.map = map;
+  }
+  onAddTypeChange(e: NzTabChangeEvent) {
+    this.addtype = e.index;
+    this.pos = [];
+    this.start = null;
+    this.end = null;
+    this.driving.clear();
+    this.formData.locations = [];
+  }
+  onMapClick(e: any) {
+    switch (this.addtype) {
+      case AddType.semiautomatic:
+        if (this.start == null) {
+          this.start = e.lnglat;
+        } else if (this.end == null) {
+          this.end = e.lnglat;
+        }
+        break;
+      case AddType.manual:
+        this.pos.push(
+          new AMap.Marker({
+            icon: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_bs.png',
+            position: [e.lnglat.lng, e.lnglat.lat],
+            label: {
+              content: `${this.order++}`,
+              direction: 'top',
+            },
+          }),
+        );
+        break;
+      default:
+        break;
+    }
   }
 }

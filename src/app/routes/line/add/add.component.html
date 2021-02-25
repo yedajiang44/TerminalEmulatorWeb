@@ -1,26 +1,71 @@
-<page-header [action]="phActionTpl">
-  <ng-template #phActionTpl> </ng-template>
-</page-header>
+<page-header id="map-header"> </page-header>
 <nz-card>
-  <div nz-row>
-    <input id="start" nz-col nzSpan="5" nz-input type="text" placeholder="请输入起点地址关键字..." />
-    <input id="end" nz-col nzSpan="5" nz-input type="text" placeholder="请输入终点地址关键字..." />
-    <button (click)="reset()" nz-button nzType="primary">重置</button>
-    <button (click)="search()" nz-button nzType="primary">搜索</button>
-    <button (click)="showAddForm()" [hidden]="formData.locations.length === 0" nz-button nzType="primary" [nzLoading]="http.loading">
-      添加
-    </button>
-  </div>
   <div id="result" class="amap-sug-result"></div>
+  <nz-space nzDirection="vertical">
+    <nz-space-item>
+      <div [ngSwitch]="addtype">
+        <nz-alert
+          *ngSwitchCase="0"
+          nzType="warning"
+          nzMessage="该模式下需要输入起点(如南京)、终点(北京)名称，系统将会自动规划路径"
+          nzShowIcon
+        >
+        </nz-alert>
+        <nz-alert *ngSwitchCase="1" nzType="warning" nzMessage="该模式下需要手动设置起点、终点，系统将会自动规划路径" nzShowIcon></nz-alert>
+        <nz-alert
+          *ngSwitchCase="2"
+          nzType="warning"
+          nzMessage="该模式下需要手动设置每一个基准点，请在地图上按照顺序左键设置，请一定要注意顺序！因为上报定位点的时候需要根据设置的顺序插值后上报"
+          nzShowIcon
+        >
+        </nz-alert>
+      </div>
+    </nz-space-item>
+    <nz-space-item> </nz-space-item>
+    <nz-space-item>
+      <span nz-typography nzType="success"
+        >按住 <span nz-typography nzType="danger"> ctrl键 </span> 后在地图内<span nz-typography nzType="danger"> 按住鼠标左键 </span
+        >并移动即可调整地图视角</span
+      >
+    </nz-space-item>
+  </nz-space>
+
+  <nz-tabset (nzSelectChange)="onAddTypeChange($event)">
+    <nz-tab nzTitle="搜索模式">
+      <input id="start" nz-col nzSpan="5" nz-input type="text" placeholder="请输入起点地址关键字..." />
+      <input id="end" nz-col nzSpan="5" nz-input type="text" placeholder="请输入终点地址关键字..." style="margin: 0 5px 0 5px" />
+      <button (click)="reset()" nz-button nzType="primary">重置</button>
+      <button (click)="search()" nz-button nzType="primary">搜索</button>
+      <button (click)="showAddForm()" [hidden]="formData.locations.length === 0" nz-button nzType="primary" [nzLoading]="http.loading">
+        添加
+      </button>
+    </nz-tab>
+    <nz-tab nzTitle="指定模式">
+      <button (click)="reset()" nz-button nzType="primary">重置</button>
+      <button (click)="search()" [hidden]="start == null || end == null" nz-button nzType="primary">搜索</button>
+      <button (click)="showAddForm()" [hidden]="formData.locations.length === 0" nz-button nzType="primary" [nzLoading]="http.loading">
+        添加
+      </button>
+    </nz-tab>
+    <nz-tab nzTitle="手动模式">
+      <button (click)="reset()" nz-button nzType="primary">重置</button>
+      <button (click)="showAddForm()" [hidden]="pos.length <= 2" nz-button nzType="primary" [nzLoading]="http.loading">添加</button>
+    </nz-tab>
+  </nz-tabset>
   <br />
   <ngx-amap
-    style="height: 600px; min-height: 600px;"
+    style="height: 600px; min-height: 600px"
     [viewMode]="'3D'"
+    [zoom]="18"
     [mapStyle]="'amap://styles/286e625d6ffb6c9e73e3e8a0a4b8d7ca'"
-    [pitchEnable]="false"
+    [pitchEnable]="true"
     [pitch]="80"
     (naReady)="onMapReady($event)"
+    (naClick)="onMapClick($event)"
   >
     <amap-tool-bar></amap-tool-bar>
+    <amap-marker *ngFor="let item of pos" [position]="item.getPosition()" [icon]="item.getIcon()" [label]="item.getLabel()"></amap-marker>
+    <amap-marker *ngIf="start" [position]="start" [icon]="'https://webapi.amap.com/theme/v1.3/markers/n/start.png'"></amap-marker>
+    <amap-marker *ngIf="end" [position]="end" [icon]="'https://webapi.amap.com/theme/v1.3/markers/n/end.png'"></amap-marker>
   </ngx-amap>
 </nz-card>

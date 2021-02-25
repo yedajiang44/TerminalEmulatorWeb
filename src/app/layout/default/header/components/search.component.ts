@@ -8,6 +8,7 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
+import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -33,7 +34,11 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
       />
     </nz-input-group>
     <nz-autocomplete nzBackfill #auto>
-      <nz-auto-option *ngFor="let i of options" [nzValue]="i">{{ i }}</nz-auto-option>
+      <nz-auto-option *ngFor="let i of options" [nzValue]="i" [nzLabel]="i.value">
+        <a target="_blank" [href]="i.link" nz-row>
+          {{ i.label }}
+        </a>
+      </nz-auto-option>
     </nz-autocomplete>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,7 +46,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
   q: string;
   qIpt: HTMLInputElement;
-  options: string[] = [];
+  options: { label: string; value: string; link: string }[] = [];
   search$ = new BehaviorSubject('');
   loading = false;
 
@@ -65,7 +70,14 @@ export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.qIpt = this.el.nativeElement.querySelector('.ant-input') as HTMLInputElement;
     this.search$.pipe(debounceTime(500), distinctUntilChanged()).subscribe((value) => {
-      this.options = value ? [value, value + value, value + value + value] : [];
+      this.options = value
+        ? [
+            { label: '必应搜索', value, link: `https://cn.bing.com/search?q=${value}` },
+            { label: '百度搜索', value, link: `https://www.baidu.com/s?wd=${value}` },
+            { label: '360搜索', value, link: `https://www.so.com/s?q=${value}` },
+            { label: '搜狗搜索', value, link: `https://www.sogou.com/tx?query=${value}` },
+          ]
+        : [];
       this.loading = false;
       this.cdr.detectChanges();
     });
@@ -81,9 +93,12 @@ export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
   }
 
   search(ev: KeyboardEvent): void {
+    console.log('onsearch');
     if (ev.key === 'Enter') {
+      console.log('回车');
       return;
     }
+    console.log(ev);
     this.loading = true;
     this.search$.next((ev.target as HTMLInputElement).value);
   }
