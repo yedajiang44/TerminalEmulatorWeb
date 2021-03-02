@@ -139,6 +139,7 @@ export class LineListAddComponent {
       case AddType.semiautomatic:
         this.start = null;
         this.end = null;
+        this.formData.locations = [];
         this.driving.clear();
         break;
       case AddType.manual:
