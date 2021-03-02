@@ -93,12 +93,9 @@ export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
   }
 
   search(ev: KeyboardEvent): void {
-    console.log('onsearch');
     if (ev.key === 'Enter') {
-      console.log('回车');
       return;
     }
-    console.log(ev);
     this.loading = true;
     this.search$.next((ev.target as HTMLInputElement).value);
   }
