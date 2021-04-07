@@ -81,16 +81,11 @@ export class LineListAddComponent {
   showAddForm() {
     this.modal.createStatic(LineConfigComponent).subscribe((value) => {
       if (this.addtype == AddType.manual)
-        this.formData.locations = this.pos.map<LocationType>((x) => ({
-          Order: Number(x.getLabel().content),
-          Latitude: x.getPosition().getLat(),
-          Logintude: x.getPosition().getLng(),
-        }));
-      //转换坐标系至wgs84
-      this.formData.locations = this.formData.locations.map((x) => {
-        const data = gcoord.transform([x.Logintude, x.Latitude], gcoord.AMap, gcoord.WGS84);
-        return { Order: x.Order, Logintude: data[0], Latitude: data[1] };
-      });
+        this.formData.locations = this.pos.map<LocationType>((x) => {
+          //转换坐标系至wgs84
+          const data = gcoord.transform([x.getPosition().getLng(), x.getPosition().getLat()], gcoord.AMap, gcoord.WGS84);
+          return { Order: Number(x.getLabel().content), Logintude: data[0], Latitude: data[1] };
+        });
       this.http
         .post(`api/Line`, {
           ...value,
