@@ -1,5 +1,5 @@
 ng build --prod
-docker build --pull --rm --no-cache -f "Dockerfile" -t yedajiang44/jt808terminalemulator-ui-ui "."
+docker build --pull --rm --no-cache -f "Dockerfile" -t yedajiang44/jt808terminalemulator-ui "."
 while true; do
     stty -icanon min 0 time 100
     echo -n "是否推送镜像(yes or no)?"
