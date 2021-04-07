@@ -41,16 +41,17 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "ajv": "^6.12.6",
+    "gcoord": "^0.3.1",
     "ng-alain": "^11.6.0",
     "ng-zorro-antd": "~11.1.0",
     "ngx-amap": "^3.0.5",
+    "ngx-countdown": "^11.0.1",
+    "ngx-tinymce": "^11.0.0",
+    "ngx-ueditor": "^11.0.0",
     "rxjs": "~6.5.4",
     "screenfull": "^5.0.2",
     "tslib": "^2.0.0",
-    "zone.js": "~0.10.2",
-    "ngx-tinymce": "^11.0.0",
-    "ngx-ueditor": "^11.0.0",
-    "ngx-countdown": "^11.0.1"
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1100.2",
@@ -67,6 +68,7 @@
     "@types/amap-js-api-transfer": "^1.4.0",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
+    "@types/jszip": "^3.1.7",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
     "husky": "^4.2.3",
@@ -78,6 +80,8 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "ng-alain-codelyzer": "^0.0.1",
+    "ng-alain-plugin-theme": "^11.0.1",
+    "ng-alain-sts": "^0.0.1",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "protractor": "~7.0.0",
@@ -92,11 +96,8 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-language-service": "^0.9.9",
     "typescript": "~4.0.5",
-    "@types/jszip": "^3.1.7",
     "webpack-bundle-analyzer": "^3.6.1",
-    "xlsx": "^0.16.1",
-    "ng-alain-plugin-theme": "^11.0.1",
-    "ng-alain-sts": "^0.0.1"
+    "xlsx": "^0.16.1"
   },
   "husky": {
     "hooks": {

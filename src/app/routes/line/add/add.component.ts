@@ -5,6 +5,7 @@ import { NzTabChangeEvent } from 'ng-zorro-antd/tabs';
 import { AMapLoaderService } from 'ngx-amap';
 import { LineConfigComponent } from '../config/config.component';
 import { AddType, LocationType } from '../model';
+import gcoord from 'gcoord';
 
 @Component({
   selector: 'app-line-add',
@@ -53,23 +54,7 @@ export class LineListAddComponent {
             let index = 0;
             switch (status) {
               case 'complete':
-                this.formData.locations = result.routes
-                  .map((x) => {
-                    this.formData.distance = x.distance;
-                    return x;
-                  })
-                  .map((x) => x.steps)
-                  .map((x) => x.map((item) => item.path).reduce((pre, cur) => pre.concat(cur)))
-                  .reduce((pre, cur) => pre.concat(cur))
-                  .map<LocationType>((x) => ({
-                    Order: index++,
-                    Logintude: x.getLng(),
-                    Latitude: x.getLat(),
-                  }));
-                break;
-              case 'error':
-                break;
-              case 'no_data':
+                this.formData.locations = this.conversionCoordinate(result.routes);
                 break;
             }
             this.changeDetectorRef.markForCheck();
@@ -83,23 +68,7 @@ export class LineListAddComponent {
           let index = 0;
           switch (status) {
             case 'complete':
-              this.formData.locations = result.routes
-                .map((x) => {
-                  this.formData.distance = x.distance;
-                  return x;
-                })
-                .map((x) => x.steps)
-                .map((x) => x.map((item) => item.path).reduce((pre, cur) => pre.concat(cur)))
-                .reduce((pre, cur) => pre.concat(cur))
-                .map<LocationType>((x) => ({
-                  Order: index++,
-                  Logintude: x.getLng(),
-                  Latitude: x.getLat(),
-                }));
-              break;
-            case 'error':
-              break;
-            case 'no_data':
+              this.formData.locations = this.conversionCoordinate(result.routes);
               break;
           }
           this.changeDetectorRef.markForCheck();
@@ -117,6 +86,11 @@ export class LineListAddComponent {
           Latitude: x.getPosition().getLat(),
           Logintude: x.getPosition().getLng(),
         }));
+      //转换坐标系至wgs84
+      this.formData.locations = this.formData.locations.map((x) => {
+        const data = gcoord.transform([x.Logintude, x.Latitude], gcoord.AMap, gcoord.WGS84);
+        return { Order: x.Order, Logintude: data[0], Latitude: data[1] };
+      });
       this.http
         .post(`api/Line`, {
           ...value,
@@ -189,5 +163,21 @@ export class LineListAddComponent {
       default:
         break;
     }
+  }
+  private conversionCoordinate(routes: AMap.Driving.DriveRoute[]): LocationType[] {
+    let index = 0;
+    return routes
+      .map((x) => {
+        this.formData.distance = x.distance;
+        return x;
+      })
+      .map((x) => x.steps)
+      .map((x) => x.map((item) => item.path).reduce((pre, cur) => pre.concat(cur)))
+      .reduce((pre, cur) => pre.concat(cur))
+      .map<LocationType>((x) => ({
+        Order: index++,
+        Logintude: x.getLng(),
+        Latitude: x.getLat(),
+      }));
   }
 }
