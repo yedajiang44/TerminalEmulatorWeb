@@ -34,7 +34,6 @@ docker tag yedajiang44/jt808terminalemulator-ui yedajiang44/jt808terminalemulato
 docker tag yedajiang44/jt808terminalemulator-ui registry.cn-hangzhou.aliyuncs.com/yedajiang44/jt808terminalemulator-ui
 docker tag yedajiang44/jt808terminalemulator-ui registry.cn-hangzhou.aliyuncs.com/yedajiang44/jt808terminalemulator-ui:$tag
 echo '准备完毕...'
-
 echo '准备推送镜像...'
 echo '推送至docker hub...'
 docker push yedajiang44/jt808terminalemulator-ui:$tag
@@ -45,3 +44,4 @@ echo '推送至阿里云...'
 docker push registry.cn-hangzhou.aliyuncs.com/yedajiang44/jt808terminalemulator-ui:$tag
 docker push registry.cn-hangzhou.aliyuncs.com/yedajiang44/jt808terminalemulator-ui
 echo '推送镜像完毕...'
+exit
