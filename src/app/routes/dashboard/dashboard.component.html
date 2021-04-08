@@ -1,1 +1,106 @@
 <page-header></page-header>
+<nz-space nzDirection="vertical" style="width: 100%">
+  <nz-space-item>
+    <nz-alert nzType="success" nzMessage="欢迎使用jt808终端模拟器" nzDescription="赶快添加数据体验吧！" nzShowIcon></nz-alert>
+  </nz-space-item>
+  <nz-space-item>
+    <nz-card class="introduction" nzTitle="简介">
+      <p class="h2">一个基于部标jtt808 2013版协议的终端模拟器</p>
+      <div nz-row [nzGutter]="8">
+        <div nz-col [nzSpan]="8">
+          <nz-card nzTitle="背景">
+            <p>
+              <span>在部标系统开发过程中虽然可以使用设备进行一些调试，但是在很多业务场景下使用设备就显得捉襟见肘，比如：</span>
+              <nz-space>
+                <nz-space-item> <nz-tag [nzColor]="'magenta'">围栏测试</nz-tag> </nz-space-item>
+                <nz-space-item> <nz-tag [nzColor]="'magenta'">压力测试</nz-tag> </nz-space-item>
+                <nz-space-item> <nz-tag [nzColor]="'magenta'">业务调试</nz-tag> </nz-space-item>
+                <nz-space-item> <nz-tag [nzColor]="'magenta'">其他...</nz-tag> </nz-space-item>
+              </nz-space>
+            </p>
+
+            <p>为解决以上问题该项目应运而生</p>
+          </nz-card>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-card nzTitle="前端">
+            <nz-space nzDirection="vertical">
+              <nz-space-item
+                ><nz-space>
+                  <nz-space-item> <span>技能：</span> </nz-space-item>
+                  <nz-space-item> <nz-tag [nzColor]="'geekblue'">Angular</nz-tag> </nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'geekblue'">TypeScript</nz-tag> </nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'geekblue'">Rx</nz-tag></nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'geekblue'">其他</nz-tag></nz-space-item>
+                </nz-space>
+              </nz-space-item>
+              <nz-space-item>
+                <nz-space>
+                  <nz-space-item> <span>优点：</span> </nz-space-item>
+                  <nz-space-item> <nz-tag [nzColor]="'geekblue'">响应式</nz-tag> </nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'geekblue'">模块化</nz-tag> </nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'geekblue'">依赖注入</nz-tag></nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'geekblue'">其他</nz-tag></nz-space-item>
+                </nz-space>
+              </nz-space-item>
+            </nz-space>
+          </nz-card>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-card nzTitle="后端">
+            <nz-space nzDirection="vertical">
+              <nz-space-item>
+                <nz-space>
+                  <nz-space-item> <span>技能：</span> </nz-space-item>
+                  <nz-space-item> <nz-tag [nzColor]="'purple'">Net5.0</nz-tag> </nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'purple'">Socket</nz-tag> </nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'purple'">EfCore</nz-tag></nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'purple'">Pgsql</nz-tag></nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'purple'">其他</nz-tag></nz-space-item>
+                </nz-space>
+              </nz-space-item>
+              <nz-space-item>
+                <nz-space>
+                  <nz-space-item> <span>优点：</span> </nz-space-item>
+                  <nz-space-item> <nz-tag [nzColor]="'purple'">跨平台</nz-tag> </nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'purple'">语法糖</nz-tag> </nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'purple'">Lambda</nz-tag></nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'purple'">Asyn</nz-tag></nz-space-item>
+                  <nz-space-item><nz-tag [nzColor]="'purple'">其他</nz-tag></nz-space-item>
+                </nz-space>
+              </nz-space-item>
+            </nz-space>
+          </nz-card>
+        </div>
+      </div>
+    </nz-card>
+    <nz-card nzTitle="使用">
+      <p class="h2">使用前请按照如下步骤操作</p>
+
+      <nz-space nzDirection="vertical">
+        <span class="h5"><i nz-icon nzType="car" nzTheme="outline"></i> 终端管理 - 添加车辆数据</span>
+        <span class="h5"><i nz-icon nzType="node-index" nzTheme="outline"></i> 线路管理 - 添加线路数据</span>
+        <span class="h5"><i nz-icon nzType="control" nzTheme="outline"></i> 任务管理 - 添加任务数据</span>
+        <span class="h5"><i nz-icon nzType="caret-right" nzTheme="outline"></i> 任务列表 - 开始任务</span>
+      </nz-space>
+
+      <p class="h5" nzType="danger" nz-typography>注意：添加任务时请确保模拟器的服务端能够连接上任务中的服务端ip及端口</p>
+    </nz-card>
+    <nz-card nzTitle="关于">
+      <nz-space nzDirection="vertical">
+        <nz-space-item>
+          <span class="h3">
+            <i nz-icon nzType="github" nzTheme="outline"></i>
+            <a href="https://github.com/yedajiang44"> github.com/yedajiang44</a>
+          </span>
+        </nz-space-item>
+        <nz-space-item>
+          <span class="h3">
+            <i nz-icon nzType="global" nzTheme="outline"></i>
+            <a href="http://yedajiang44.com"> yedajiang44.com</a>
+          </span>
+        </nz-space-item>
+      </nz-space>
+    </nz-card>
+  </nz-space-item>
+</nz-space>

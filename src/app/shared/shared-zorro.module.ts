@@ -29,6 +29,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 export const SHARED_ZORRO_MODULES = [
   NzFormModule,
@@ -62,4 +63,5 @@ export const SHARED_ZORRO_MODULES = [
   NzSpaceModule,
   NzTypographyModule,
   NzAnchorModule,
+  NzTagModule,
 ];
