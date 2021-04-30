@@ -53,11 +53,13 @@ export class StartupService {
           this.settingService.setApp(res.app);
           // User information: including name, avatar, email address
           const { user } = this.tokenService.get();
-          this.settingService.setUser({
-            email: user.email,
-            name: user.realName ?? user.loginName,
-            avatar: user.avatar ?? 'assets/avatar.svg',
-          });
+          if (user) {
+            this.settingService.setUser({
+              email: user.email,
+              name: user.realName ?? user.loginName,
+              avatar: user.avatar ?? 'assets/avatar.svg',
+            });
+          }
           // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
           this.aclService.setFull(true);
           // Menu data, https://ng-alain.com/theme/menu
