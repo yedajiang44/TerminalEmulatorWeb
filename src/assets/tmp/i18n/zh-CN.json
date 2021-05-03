@@ -1,6 +1,7 @@
 {
   "app.name":"终端模拟器",
   "app.desc":"以部标协议为基础实现的终端模拟器",
+  "home":"首页",
   "menu.infrastructure":"基础设施",
   "menu.terminal":"终端管理",
   "menu.terminal.list":"终端列表",
