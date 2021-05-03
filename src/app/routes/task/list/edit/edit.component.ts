@@ -63,7 +63,7 @@ export class TaskListEditComponent implements OnInit {
       port: { type: 'number', title: '端口' },
       speed: { type: 'number', title: '行驶速度', default: 80 },
       interval: { type: 'number', title: '定位间隔', default: 30, ui: { optionalHelp: '实时定位上报间隔，单位秒' } },
-      status: { type: 'integer', enum: this.status, title: '状态', ui: { widget: 'select' } },
+      status: { type: 'integer', enum: this.status, title: '状态', ui: { widget: 'select', hidden: true } },
     },
     required: ['name', 'lineId', 'simNumber', 'ip', 'port', 'speed', 'interval', 'status'],
   };
