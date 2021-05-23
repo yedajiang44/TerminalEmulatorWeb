@@ -127,7 +127,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     const token = this.tokenSrv.get().token;
     return req.clone({
       setHeaders: {
-        token: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
   }
@@ -197,7 +197,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       url = environment.SERVER_URL + url;
     }
 
-    const newReq = req.clone({ url });
+    const newReq = this.reAttachToken(req.clone({ url }));
     return next.handle(newReq).pipe(
       mergeMap((ev) => {
         // 允许统一对请求错误处理
