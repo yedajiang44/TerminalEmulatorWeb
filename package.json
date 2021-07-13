@@ -42,7 +42,7 @@
     "ajv": "^6.12.6",
     "gcoord": "^0.3.1",
     "ng-alain": "^11.6.0",
-    "ng-zorro-antd": "~11.3.0",
+    "ng-zorro-antd": "^11.4.1",
     "ngx-amap": "^3.0.5",
     "ngx-countdown": "^11.0.1",
     "ngx-tinymce": "^11.0.0",
