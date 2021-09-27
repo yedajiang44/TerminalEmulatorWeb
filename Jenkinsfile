@@ -4,7 +4,7 @@ pipeline {
     stage('build') {
       agent {
         docker {
-          image 'node:16-alpine3.11'
+          image 'trion/ng-cli'
         }
 
       }
