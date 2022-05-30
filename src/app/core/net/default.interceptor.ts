@@ -40,11 +40,6 @@ const CODEMESSAGE = {
  */
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
-  // 是否开启当 Token 过期后重新调用刷新 Token 接口，并在刷新 Token 后再一次发起请求
-  private refreshTokenEnabled = true;
-  private refreshToking = false;
-  private refreshToken$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
   constructor(private injector: Injector) {}
 
   private get notification(): NzNotificationService {
@@ -71,50 +66,6 @@ export class DefaultInterceptor implements HttpInterceptor {
 
     const errortext = CODEMESSAGE[ev.status] || ev.statusText;
     this.notification.error(`请求错误 ${ev.status}`, `${errortext}`);
-  }
-
-  private tryRefreshToken(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    // 1、若请求为刷新Token请求，表示来自刷新Token可以直接跳转登录页
-    if (!this.refreshTokenEnabled || [`/api/auth/refresh`].some((url) => req.url.includes(url))) {
-      this.toLogin();
-      return throwError(ev);
-    }
-    // 2、如果 `refreshToking` 为 `true` 表示已经在请求刷新 Token 中，后续所有请求转入等待状态，直至结果返回后再重新发起请求
-    if (this.refreshToking) {
-      return this.refreshToken$.pipe(
-        filter((v) => !!v),
-        take(1),
-        switchMap(() => next.handle(this.reAttachToken(req))),
-      );
-    }
-    // 3、尝试调用刷新 Token
-    this.refreshToking = true;
-    this.refreshToken$.next(null);
-
-    return this.refreshTokenRequest().pipe(
-      switchMap((res) => {
-        // 通知后续请求继续执行
-        this.refreshToking = false;
-        this.refreshToken$.next(res);
-        // 重新保存新 token
-        this.tokenSrv.set(res);
-        // 重新发起请求
-        return next.handle(this.reAttachToken(req));
-      }),
-      catchError((err) => {
-        this.refreshToking = false;
-        this.toLogin();
-        return throwError(err);
-      }),
-    );
-  }
-
-  /**
-   * 刷新 Token 请求
-   */
-  private refreshTokenRequest(): Observable<any> {
-    const model = this.tokenSrv.get();
-    return this.http.post(`/api/auth/refresh`, null, null, { headers: { refresh_token: model.refresh_token || '' } });
   }
 
   /**
@@ -171,7 +122,8 @@ export class DefaultInterceptor implements HttpInterceptor {
         }
         break;
       case 401:
-        return this.tryRefreshToken(ev, req, next);
+        this.toLogin();
+        break;
       case 403:
       case 404:
       case 500:
@@ -200,6 +152,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     const newReq = this.reAttachToken(req.clone({ url }));
     return next.handle(newReq).pipe(
       mergeMap((ev) => {
+        console.log(ev);
         // 允许统一对请求错误处理
         if (ev instanceof HttpResponseBase) {
           return this.handleData(ev, newReq, next);
