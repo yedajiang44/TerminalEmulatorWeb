@@ -1,0 +1,19 @@
+<page-header [action]="phActionTpl">
+  <ng-template #phActionTpl> </ng-template>
+</page-header>
+<nz-card>
+  <input
+    placeholder="默认300秒"
+    nz-input
+    nz-col
+    nz-tooltip
+    nzTooltipTrigger="focus"
+    nzTooltipPlacement="topLeft"
+    nzOverlayClassName="numeric-input"
+    [nzTooltipTitle]="'输入数字，该值标识只显示过去指定秒内的在线数记录'"
+    nzSpan="4"
+    type="number"
+    [(ngModel)]="dataMaxLength"
+  />
+  <div echarts [options]="options" [merge]="updateOptions" class="demo-chart"></div>
+</nz-card>

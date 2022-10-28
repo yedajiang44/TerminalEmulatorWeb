@@ -152,7 +152,6 @@ export class DefaultInterceptor implements HttpInterceptor {
     const newReq = this.reAttachToken(req.clone({ url }));
     return next.handle(newReq).pipe(
       mergeMap((ev) => {
-        console.log(ev);
         // 允许统一对请求错误处理
         if (ev instanceof HttpResponseBase) {
           return this.handleData(ev, newReq, next);

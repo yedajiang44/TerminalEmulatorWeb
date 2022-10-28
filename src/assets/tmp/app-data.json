@@ -47,6 +47,11 @@
           "link": "/task/list",
           "i18n": "menu.task.list",
           "shortcut": false
+        },{
+          "text": "背压列表",
+          "link": "/task/benchmark",
+          "i18n": "menu.task.benchmark",
+          "shortcut": false
         }]
       }]
     },

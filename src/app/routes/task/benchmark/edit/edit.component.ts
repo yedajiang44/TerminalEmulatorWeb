@@ -6,21 +6,12 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 import { filter, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-task-list-edit',
+  selector: 'app-benchmark-edit',
   templateUrl: './edit.component.html',
 })
-export class TaskListEditComponent implements OnInit {
-  record: any = {};
-  i: any;
-  status: SFSchemaEnumType[] = [
-    { label: '启动', value: 0, checked: true },
-    { label: '开始', value: 1 },
-    { label: '运行', value: 2 },
-    { label: '结束', value: 3 },
-  ];
+export class BenchmarkEditComponent implements OnInit {
   schema: SFSchema = {
     properties: {
-      name: { type: 'string', title: '名称', maxLength: 11 },
       lineId: {
         type: 'string',
         title: '线路',
@@ -38,24 +29,20 @@ export class TaskListEditComponent implements OnInit {
               .toPromise(),
         } as SFSelectWidgetSchema,
       },
-      simNumber: {
-        type: 'string',
-        title: '终端',
+      type: {
+        type: 'number',
+        title: '循环类型',
         ui: {
           widget: 'select',
-          placeholder: '请输入车牌',
+          placeholder: '请输入循环类型',
           serverSearch: true,
           searchDebounceTime: 300,
           searchLoadingText: '搜索中...',
 
           onSearch: (q) =>
             this.http
-              .get(`api/Terminal/Search?index=1&size=20&licensePlate=${q}`)
-              .pipe(
-                map((res) =>
-                  (res.list as any[]).map((i) => ({ label: `车牌号:${i.licensePlate}，SIM卡号：${i.sim}`, value: i.sim } as SFSchemaEnum)),
-                ),
-              )
+              .get(`api/task/type/typeSearch/${q}`)
+              .pipe(map((res) => (res as any[]).map((i) => ({ label: i.description, value: i.value } as SFSchemaEnum))))
               .toPromise(),
         } as SFSelectWidgetSchema,
       },
@@ -63,9 +50,8 @@ export class TaskListEditComponent implements OnInit {
       port: { type: 'number', title: '端口' },
       speed: { type: 'number', title: '行驶速度', default: 80 },
       interval: { type: 'number', title: '定位间隔', default: 30, ui: { optionalHelp: '实时定位上报间隔，单位秒' } },
-      status: { type: 'integer', enum: this.status, title: '状态', ui: { widget: 'select', hidden: true } },
     },
-    required: ['name', 'lineId', 'simNumber', 'ip', 'port', 'speed', 'interval', 'status'],
+    required: ['name', 'lineId', 'ip', 'port', 'speed', 'interval'],
   };
   ui: SFUISchema = {
     '*': {
@@ -76,31 +62,16 @@ export class TaskListEditComponent implements OnInit {
 
   constructor(private modal: NzModalRef, private msgSrv: NzMessageService, public http: _HttpClient) {}
 
-  ngOnInit(): void {
-    if (this.record.id) {
-      this.http.get(`api/task/${this.record.id}`).subscribe((res) => (this.i = res));
-    }
-  }
+  ngOnInit(): void {}
 
   save(value: any) {
-    if (this.record.id) {
-      this.http
-        .put(`api/task`, { id: this.record.id, ...value })
-        .pipe(filter((x) => x !== null))
-        .subscribe((res) => {
-          this.msgSrv.success('保存成功');
-          this.modal.close(true);
-        });
-    } else {
-      delete value.id;
-      this.http
-        .post(`api/task`, value)
-        .pipe(filter((x) => x !== null))
-        .subscribe((res) => {
-          this.msgSrv.success('保存成功');
-          this.modal.close(true);
-        });
-    }
+    this.http
+      .get(`api/benchmark`, value)
+      .pipe(filter((x) => x !== null))
+      .subscribe((res) => {
+        this.msgSrv.success('保存成功');
+        this.modal.close(true);
+      });
   }
 
   close() {
