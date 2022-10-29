@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SFSchema, SFSchemaEnum, SFSchemaEnumType, SFSelectWidgetSchema, SFUISchema } from '@delon/form';
+import { SFSchema, SFSchemaEnum, SFSchemaEnumType, SFSelectWidgetSchema, SFNumberWidgetSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
@@ -30,6 +30,7 @@ export class TaskListEditComponent implements OnInit {
           serverSearch: true,
           searchDebounceTime: 300,
           searchLoadingText: '搜索中...',
+          optionalHelp: '以线路中的定位点为基准点，并根据速度计算出上报时的位置',
 
           onSearch: (q) =>
             this.http
@@ -47,6 +48,7 @@ export class TaskListEditComponent implements OnInit {
           serverSearch: true,
           searchDebounceTime: 300,
           searchLoadingText: '搜索中...',
+          optionalHelp: '需要被模拟的终端',
 
           onSearch: (q) =>
             this.http
@@ -59,10 +61,20 @@ export class TaskListEditComponent implements OnInit {
               .toPromise(),
         } as SFSelectWidgetSchema,
       },
-      ip: { type: 'string', title: '服务器' },
-      port: { type: 'number', title: '端口' },
-      speed: { type: 'number', title: '行驶速度', default: 80 },
-      interval: { type: 'number', title: '定位间隔', default: 30, ui: { optionalHelp: '实时定位上报间隔，单位秒' } },
+      ip: { type: 'string', title: '服务器', ui: { optionalHelp: '请确保api所在服务器能连接该ip' } },
+      port: { type: 'number', title: '端口', ui: { optionalHelp: '请确保端口被监听并已对外开放' } },
+      speed: {
+        type: 'integer',
+        title: '行驶速度',
+        default: 80,
+        ui: { optionalHelp: '终端行驶速度，单位km/h', unit: 'km/h' },
+      },
+      interval: {
+        type: 'integer',
+        title: '定位间隔',
+        default: 30,
+        ui: { optionalHelp: '实时定位上报间隔，单位秒', unit: 's' },
+      },
       status: { type: 'integer', enum: this.status, title: '状态', ui: { widget: 'select', hidden: true } },
     },
     required: ['name', 'lineId', 'simNumber', 'ip', 'port', 'speed', 'interval', 'status'],
