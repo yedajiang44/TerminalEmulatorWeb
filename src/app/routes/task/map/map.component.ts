@@ -26,13 +26,11 @@ export class MapComponent implements OnDestroy {
       .pipe(
         startWith(0),
         switchMap(() => this.http.get(`api/task/location/${this.i.id}`)),
+        filter((x) => x != null),
       )
       .subscribe((x: any) => {
-        console.log(x);
-        if (x != null) {
-          const data = gcoord.transform([x.longitude / 10e5, x.latitude / 10e5], gcoord.WGS84, gcoord.GCJ02);
-          this.updateLocations(new AMap.Marker({ position: new AMap.LngLat(data[0], data[1], true) }));
-        }
+        const data = gcoord.transform([x.longitude / 10e5, x.latitude / 10e5], gcoord.WGS84, gcoord.GCJ02);
+        this.updateLocations(new AMap.Marker({ position: new AMap.LngLat(data[0], data[1], true) }));
       });
   }
   close() {

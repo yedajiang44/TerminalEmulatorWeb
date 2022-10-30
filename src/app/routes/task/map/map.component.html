@@ -2,23 +2,31 @@
   <div class="modal-title">监控{{ i.name }}</div>
 </div>
 <nz-card>
-  <ngx-amap
-    style="height: 600px; min-height: 600px"
-    [viewMode]="'3D'"
-    [zoom]="18"
-    [mapStyle]="'amap://styles/286e625d6ffb6c9e73e3e8a0a4b8d7ca'"
-    [pitchEnable]="true"
-    [pitch]="80"
-    (naReady)="onMapReady($event)"
-  >
-    <amap-tool-bar></amap-tool-bar>
-    <amap-marker
-      *ngFor="let item of locations"
-      [position]="item.getPosition()"
-      [icon]="item.getIcon()"
-      [label]="item.getLabel()"
-    ></amap-marker>
-  </ngx-amap>
+  <nz-space nzDirection="vertical" style="width: 100%">
+    <nz-alert
+      *nzSpaceItem
+      nzType="warning"
+      nzMessage="由于坐标系转换存在误差，因此在地图显示时可能出现偏移，如您有更好的解决方案请与我联系。"
+      nzShowIcon
+    ></nz-alert>
+    <ngx-amap
+      *nzSpaceItem
+      style="height: 600px; min-height: 600px"
+      [viewMode]="'3D'"
+      [zoom]="18"
+      [mapStyle]="'amap://styles/286e625d6ffb6c9e73e3e8a0a4b8d7ca'"
+      [pitchEnable]="true"
+      [pitch]="80"
+      (naReady)="onMapReady($event)"
+    >
+      <amap-tool-bar></amap-tool-bar>
+      <amap-marker
+        *ngFor="let item of locations"
+        [position]="item.getPosition()"
+        [icon]="item.getIcon()"
+        [label]="item.getLabel()"
+      ></amap-marker> </ngx-amap
+  ></nz-space>
 </nz-card>
 
 <div class="modal-footer">
