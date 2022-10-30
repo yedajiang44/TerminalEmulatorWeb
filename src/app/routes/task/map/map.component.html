@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <div class="modal-title">监控{{ i.name }}</div>
+</div>
+<nz-card>
+  <ngx-amap
+    style="height: 600px; min-height: 600px"
+    [viewMode]="'3D'"
+    [zoom]="18"
+    [mapStyle]="'amap://styles/286e625d6ffb6c9e73e3e8a0a4b8d7ca'"
+    [pitchEnable]="true"
+    [pitch]="80"
+    (naReady)="onMapReady($event)"
+  >
+    <amap-tool-bar></amap-tool-bar>
+    <amap-marker
+      *ngFor="let item of locations"
+      [position]="item.getPosition()"
+      [icon]="item.getIcon()"
+      [label]="item.getLabel()"
+    ></amap-marker>
+  </ngx-amap>
+</nz-card>
+
+<div class="modal-footer">
+  <button nz-button type="submit" nzType="primary" (click)="close()">关闭</button>
+</div>

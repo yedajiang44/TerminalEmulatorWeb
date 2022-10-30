@@ -4,6 +4,7 @@ import { STChange, STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { MapComponent } from '../map/map.component';
 import { TaskListEditComponent } from './edit/edit.component';
 
 @Component({
@@ -50,9 +51,15 @@ export class TaskListComponent implements OnInit {
           },
           click: 'reload',
         },
-        { text: '开始', click: (item: any) => this.start(item.id) },
-        { text: '停止', click: (item: any) => this.stop(item.id) },
         { text: '删除', type: 'del', click: (item: any) => this.delete(item.id) },
+        {
+          text: '任务',
+          children: [
+            { text: '开始任务', click: (item: any) => this.start(item.id) },
+            { text: '停止任务', click: (item: any) => this.stop(item.id) },
+            { text: '实时监控', click: (item: any) => this.monitor(item) },
+          ],
+        },
       ],
     },
   ];
@@ -91,7 +98,9 @@ export class TaskListComponent implements OnInit {
       }
     });
   }
-
+  monitor(i: any) {
+    this.modal.createStatic(MapComponent, { i }).subscribe(() => this.st.reload());
+  }
   batchDelete() {
     this.http.delete(`api/task`, { ids: this.ids }).subscribe((res) => {
       if (res) {
