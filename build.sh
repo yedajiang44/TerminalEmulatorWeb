@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ng build --prod
+npx ng build --prod
 docker build --pull --rm --no-cache -f "Dockerfile" -t yedajiang44/jt808terminalemulator-ui "."
 while true; do
     stty -icanon min 0 time 100
