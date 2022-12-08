@@ -83,8 +83,8 @@ export class LineListAddComponent {
       if (this.addtype == AddType.manual)
         this.formData.locations = this.pos.map<LocationType>((x) => {
           //转换坐标系至wgs84
-          const data = gcoord.transform([x.getPosition().getLng(), x.getPosition().getLat()], gcoord.AMap, gcoord.WGS84);
-          return { Order: Number(x.getLabel().content), Logintude: data[0], Latitude: data[1] };
+          const [logintude, latitude] = gcoord.transform([x.getPosition().getLng(), x.getPosition().getLat()], gcoord.AMap, gcoord.WGS84);
+          return { Order: Number(x.getLabel().content), Logintude: logintude, Latitude: latitude };
         });
       this.http
         .post(`api/Line`, {
@@ -169,10 +169,14 @@ export class LineListAddComponent {
       .map((x) => x.steps)
       .map((x) => x.map((item) => item.path).reduce((pre, cur) => pre.concat(cur)))
       .reduce((pre, cur) => pre.concat(cur))
-      .map<LocationType>((x) => ({
-        Order: index++,
-        Logintude: x.getLng(),
-        Latitude: x.getLat(),
-      }));
+      .map<LocationType>((x) => {
+        //转换坐标系至wgs84
+        const [logintude, latitude] = gcoord.transform([x.getLng(), x.getLat()], gcoord.AMap, gcoord.WGS84);
+        return {
+          Order: index++,
+          Logintude: logintude,
+          Latitude: latitude,
+        };
+      });
   }
 }
