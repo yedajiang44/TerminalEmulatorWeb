@@ -5,6 +5,7 @@ import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { TerminalListEditComponent } from './edit/edit.component';
+import { TerminalListImportComponent } from './import/import.component';
 import { TerminalRandomComponent } from './random/random.component';
 import { TerminalListViewComponent } from './view/view.component';
 
@@ -57,6 +58,14 @@ export class TerminalListComponent implements OnInit {
       this.ids = e.checkbox.map((i) => i.id);
     }
   }
+
+  showImportForm() {
+    this.modal.createStatic(TerminalListImportComponent, { i: { id: 0 } }).subscribe(
+      () => this.st.reload(),
+      () => this.st.reload(),
+    );
+  }
+
   showAddForm() {
     this.modal.createStatic(TerminalListEditComponent, { i: { id: 0 } }).subscribe(() => this.st.reload());
   }
