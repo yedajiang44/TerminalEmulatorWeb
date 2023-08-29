@@ -48,22 +48,24 @@ export class BenchmarkListComponent {
 
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
-    { title: '编号', index: 'simNumber', type: 'checkbox' },
+    // { title: '编号', index: 'simNumber', type: 'checkbox' },
     { title: '车牌号', index: 'licensePlate' },
     { title: 'sim卡号', index: 'simNumber' },
     { title: '在线', index: 'online', type: 'tag', tag: TAG },
-    {
-      title: '操作',
-      buttons: [
-        // { text: '查看', type: 'modal', modal: { component: TasklListViewComponent }, click: (item: any) => `/view/${item.id}` },
-        {
-          text: '编辑',
-          type: 'modal',
-          modal: {},
-          click: 'reload',
-        },
-      ],
-    },
+    // {
+    //   title: '操作',
+    //   buttons: [
+    //     // { text: '查看', type: 'modal', modal: { component: TasklListViewComponent }, click: (item: any) => `/view/${item.id}` },
+    //     {
+    //       text: '编辑',
+    //       type: 'modal',
+    //       modal: {
+    //         component: BenchmarkEditComponent,
+    //       },
+    //       click: 'reload',
+    //     },
+    //   ],
+    // },
   ];
   constructor(
     private http: _HttpClient,
