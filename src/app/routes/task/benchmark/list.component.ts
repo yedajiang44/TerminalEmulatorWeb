@@ -28,12 +28,12 @@ export class BenchmarkListComponent {
         title: '车牌号',
         minimum: 0,
       },
-      simNumber: {
+      sim: {
         type: 'string',
         title: 'sim卡号',
         minimum: 0,
       },
-      online: {
+      onlineState: {
         type: 'number',
         title: '状态',
         default: 0,
