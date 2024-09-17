@@ -28,12 +28,12 @@ export class BenchmarkListComponent {
         title: '车牌号',
         minimum: 0,
       },
-      simNumber: {
+      sim: {
         type: 'string',
         title: 'sim卡号',
         minimum: 0,
       },
-      online: {
+      onlineState: {
         type: 'number',
         title: '状态',
         default: 0,
@@ -48,22 +48,27 @@ export class BenchmarkListComponent {
 
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
-    { title: '编号', index: 'simNumber', type: 'checkbox' },
+    // { title: '编号', index: 'simNumber', type: 'checkbox' },
     { title: '车牌号', index: 'licensePlate' },
     { title: 'sim卡号', index: 'simNumber' },
     { title: '在线', index: 'online', type: 'tag', tag: TAG },
-    {
-      title: '操作',
-      buttons: [
-        // { text: '查看', type: 'modal', modal: { component: TasklListViewComponent }, click: (item: any) => `/view/${item.id}` },
-        {
-          text: '编辑',
-          type: 'modal',
-          modal: {},
-          click: 'reload',
-        },
-      ],
-    },
+    { title: '上线时间', index: 'startDateTime', sort: 'StartDateTime' },
+    { title: '最后活动时间', index: 'lastActiveDateTime', sort: 'LastActiveDateTime' },
+    { title: '在线时长', index: 'onlineTime', sort: 'OnlineTime' },
+    // {
+    //   title: '操作',
+    //   buttons: [
+    //     // { text: '查看', type: 'modal', modal: { component: TasklListViewComponent }, click: (item: any) => `/view/${item.id}` },
+    //     {
+    //       text: '编辑',
+    //       type: 'modal',
+    //       modal: {
+    //         component: BenchmarkEditComponent,
+    //       },
+    //       click: 'reload',
+    //     },
+    //   ],
+    // },
   ];
   constructor(
     private http: _HttpClient,

@@ -5,6 +5,17 @@
     <button (click)="stop()" nz-button nzType="danger">停止</button>
   </ng-template>
 </page-header>
+
+<nz-space nzDirection="vertical" style="width: 100%">
+  <nz-space-item>
+    <nz-alert
+      nzType="info"
+      nzMessage="简要说明"
+      nzDescription="该功能是获取所有已录入的终端信息，并在启动背压时，使用这些终端信息去模拟设备。每一个设备使用单独的链路，但受系统资源、系统设置、环境变量等约束，因此模拟的数量是有限的"
+      nzShowIcon
+    ></nz-alert>
+  </nz-space-item>
+</nz-space>
 <nz-card>
   <sf mode="search" [schema]="searchSchema" (formSubmit)="st.reset($event)" (formReset)="st.reset($event)"></sf>
   <st #st [data]="url" [columns]="columns" [req]="{ reName: { pi: 'index', ps: 'size' } }" multiSort="true" (change)="change($event)"></st>

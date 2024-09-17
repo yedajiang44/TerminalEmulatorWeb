@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "type": "npm",
+        "script": "start",
+        "problemMatcher": [],
+        "label": "启动服务",
+        "options": {
+          "env": {
+            "NODE_OPTIONS": "--openssl-legacy-provider"
+          }
+        },
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      },
+      {
+        "type": "npm",
+        "script": "build",
+        "problemMatcher": [],
+        "label": "发布",
+        "options": {
+          "env": {
+            "NODE_OPTIONS": "--openssl-legacy-provider"
+          }
+        }
+      }
+    ]
+  }
+  
