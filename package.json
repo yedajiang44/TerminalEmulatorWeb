@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o",
-    "build": "ng serve -c=hmr",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && npx ng build --prod",
     "test": "ng test",
     "lint": "npm run lint:ts && npm run lint:style",
     "e2e": "ng e2e",
@@ -16,7 +16,7 @@
     "lint:style": "stylelint \"src/**/*.less\" --syntax less --fix",
     "pretty-quick": "pretty-quick",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
-    "hmr": "ng serve --hmr",
+    "hmr": "set NODE_OPTIONS=--openssl-legacy-provider && ng serve --hmr",
     "theme": "ng-alain-plugin-theme -t=themeCss"
   },
   "private": true,

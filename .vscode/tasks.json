@@ -17,15 +17,40 @@
         }
       },
       {
+        "label": "install",
+        "type": "npm",
+        "script": "install",
+        "hide": true
+      },
+      {
+        "label": "publish",
+        "detail": "发布",
         "type": "npm",
         "script": "build",
+        "dependsOn": ["install"],
         "problemMatcher": [],
-        "label": "发布",
-        "options": {
-          "env": {
-            "NODE_OPTIONS": "--openssl-legacy-provider"
-          }
+        "hide": true,
+        "group": {
+          "kind": "build",
+          "isDefault": true
         }
+      },
+      {
+        "label": "build docker image",
+        "detail": "编译镜像",
+        "hide": true,
+        "type": "shell",
+        "command": "docker compose build --no-cache",
+        "dependsOn": ["publish"],
+        "problemMatcher": []
+      },
+      {
+        "label": "push docker image",
+        "detail": "推送镜像",
+        "type": "shell",
+        "command": "docker compose push",
+        "dependsOn": ["build docker image"],
+        "problemMatcher": []
       }
     ]
   }

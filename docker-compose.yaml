@@ -1,0 +1,12 @@
+services:
+  ui:
+    image: yedajiang44/jt808terminalemulator-ui
+    build:
+      context: .
+      dockerfile: Dockerfile
+      tags:
+        - yedajiang44/jt808terminalemulator-ui:bate-1.6
+        - registry.cn-hangzhou.aliyuncs.com/yedajiang44/jt808terminalemulator-ui
+        - registry.cn-hangzhou.aliyuncs.com/yedajiang44/jt808terminalemulator-ui:bate-1.6
+        - docker.yedajiang44.com/yedajiang44/jt808terminalemulator-ui
+        - docker.yedajiang44.com/yedajiang44/jt808terminalemulator-ui:bate-1.6
